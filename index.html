@@ -227,6 +227,7 @@
       height: 100%;
       flex-direction: row;
       background: var(--bg);
+      position: relative;
     }
 
     /* --- Left Panel (Dice) --- */
@@ -602,7 +603,7 @@
     .scorecard-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 15px;
+      font-size: 13px;
       table-layout: fixed;
     }
 
@@ -611,7 +612,7 @@
       border: 1px solid var(--border);
       padding: 2px 5px;
       text-align: center;
-      height: 32px;
+      height: 27px;
       vertical-align: middle;
     }
 
@@ -620,8 +621,8 @@
       padding-left: 8px;
       font-weight: 600;
       background: var(--card-bg);
-      width: 210px;
-      min-width: 210px;
+      width: 180px;
+      min-width: 180px;
     }
 
     .scorecard-table .cat-icon {
@@ -637,7 +638,7 @@
       background: var(--bg-light);
       color: var(--text-white);
       font-weight: 700;
-      font-size: 16px;
+      font-size: 14px;
       padding: 5px 4px;
     }
 
@@ -696,7 +697,7 @@
     .score-cell {
       background: var(--card-bg);
       font-weight: 600;
-      font-size: 16px;
+      font-size: 14px;
       color: var(--text);
     }
 
@@ -709,7 +710,7 @@
       font-weight: 400;
       font-style: italic;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 13px;
     }
 
     .score-cell.potential:active {
@@ -734,44 +735,143 @@
       100% { background: var(--card-bg); }
     }
 
-    /* ===== Scoreboard (all players overview) ===== */
-    .scoreboard {
+    /* ===== Flyover (active player overlay) ===== */
+    .flyover-overlay {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: calc(100% - 380px);
+      z-index: 50;
       display: flex;
-      gap: 6px;
-      padding: 6px 4px;
-      margin-bottom: 4px;
-      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: center;
+      pointer-events: none;
+      padding: 6px 12px;
+      background: rgba(0,0,0,0.12);
     }
 
-    .sb-player {
+    .flyover-panel {
+      pointer-events: auto;
+      width: 300px;
+      max-height: 100%;
+      background: var(--card-bg);
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .flyover-header {
+      background: var(--accent);
+      color: #333;
+      text-align: center;
+      padding: 8px 12px;
+      font-size: 17px;
+      font-weight: 800;
+      border-radius: 14px 14px 0 0;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .flyover-section {
+      padding: 3px 0;
+      font-size: 11px;
+      font-weight: 800;
+      color: #5d4037;
+      background: var(--section-bg);
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .flyover-row {
       display: flex;
       align-items: center;
-      gap: 6px;
       padding: 5px 12px;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.85);
-      font-size: 13px;
+      border-bottom: 1px solid var(--border-light);
+      min-height: 30px;
+    }
+
+    .flyover-cat {
+      flex: 1;
+      font-size: 14px;
       font-weight: 600;
       min-width: 0;
     }
 
-    .sb-active {
-      background: var(--accent);
-      color: #333;
-      font-weight: 800;
-      box-shadow: 0 2px 8px rgba(249, 168, 37, 0.4);
+    .flyover-val {
+      font-size: 16px;
+      font-weight: 700;
+      width: 50px;
+      text-align: right;
+      flex-shrink: 0;
     }
 
-    .sb-name {
-      max-width: 90px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .flyover-row.fo-scored {
+      opacity: 0.45;
     }
 
-    .sb-score {
+    .flyover-row.fo-potential {
+      cursor: pointer;
+      background: var(--potential-bg);
+    }
+
+    .flyover-row.fo-potential:active {
+      background: #c8e6c9;
+    }
+
+    .flyover-row.fo-potential .flyover-val {
+      color: var(--potential);
       font-weight: 800;
+    }
+
+    .flyover-row.fo-potential.fo-zero .flyover-val {
+      color: #bbb;
+    }
+
+    .flyover-row.fo-empty .flyover-val {
+      color: transparent;
+    }
+
+    .flyover-summary {
+      display: flex;
+      align-items: center;
+      padding: 3px 12px;
+      background: var(--summary-bg);
+      border-bottom: 1px solid var(--border-light);
+      min-height: 26px;
+    }
+
+    .flyover-summary .flyover-cat {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .flyover-summary .flyover-val {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .flyover-final {
+      display: flex;
+      align-items: center;
+      padding: 7px 12px;
+      background: #fff9c4;
+      border-radius: 0 0 14px 14px;
+    }
+
+    .flyover-final .flyover-cat {
       font-size: 15px;
+      font-weight: 800;
+    }
+
+    .flyover-final .flyover-val {
+      font-size: 18px;
+      font-weight: 800;
+      width: 50px;
+      text-align: right;
+      flex-shrink: 0;
     }
 
     /* ===== Game Over Screen ===== */
@@ -916,8 +1016,11 @@
   </div>
   <!-- Right: Scorecard Panel -->
   <div class="scorecard-panel">
-    <div class="scoreboard" id="scoreboard"></div>
     <table class="scorecard-table" id="scorecard-table"></table>
+  </div>
+  <!-- Flyover for active player -->
+  <div class="flyover-overlay" id="flyover-overlay">
+    <div class="flyover-panel" id="flyover-panel"></div>
   </div>
 </div>
 
@@ -1378,29 +1481,59 @@ function totRow(key, label, n) {
   return r + '</tr>';
 }
 
-// ===== Scoreboard (All Players Overview) =====
-function renderScoreboard() {
-  const sb = document.getElementById('scoreboard');
-  let html = '';
-  game.players.forEach((p, i) => {
-    const total = getFinalTotal(p);
-    const active = i === game.currentPlayer && !game.gameOver;
-    html += `<div class="sb-player${active ? ' sb-active' : ''}">
-      <span class="sb-name">${escHtml(p.name)}</span>
-      <span class="sb-score">${total}</span>
-    </div>`;
+// ===== Flyover (Active Player Overlay) =====
+function renderFlyover() {
+  const overlay = document.getElementById('flyover-overlay');
+  if (game.gameOver) { overlay.style.display = 'none'; return; }
+  overlay.style.display = 'flex';
+
+  const player = game.players[game.currentPlayer];
+  const panel = document.getElementById('flyover-panel');
+  let h = `<div class="flyover-header">${escHtml(player.name)}</div>`;
+
+  h += '<div class="flyover-section">1. Teil</div>';
+  UPPER_CATS.forEach(c => { h += flyoverRow(c, player); });
+  const uSum = getUpperSum(player);
+  const uFilled = UPPER_CATS.some(c => player.scores[c.key] != null);
+  const lFilled = LOWER_CATS.some(c => player.scores[c.key] != null);
+  h += flyoverSum('Zwischensumme', uFilled ? uSum : '');
+  h += flyoverSum('Bonus (ab 63)', uFilled ? (uSum >= 63 ? '35' : `${uSum}/63`) : '');
+  h += flyoverSum('Gesamt 1. Teil', uFilled ? getUpperTotal(player) : '');
+
+  h += '<div class="flyover-section">2. Teil</div>';
+  LOWER_CATS.forEach(c => { h += flyoverRow(c, player); });
+  h += flyoverSum('Gesamt 2. Teil', lFilled ? getLowerSum(player) : '');
+  h += flyoverSum('Gesamt 1. Teil', uFilled ? getUpperTotal(player) : '');
+
+  h += `<div class="flyover-final"><span class="flyover-cat">Endsumme</span>
+    <span class="flyover-val">${(uFilled || lFilled) ? getFinalTotal(player) : ''}</span></div>`;
+
+  panel.innerHTML = h;
+  panel.querySelectorAll('.fo-potential').forEach(row => {
+    row.addEventListener('click', () => selectCategory(row.dataset.cat));
   });
-  sb.innerHTML = html;
+}
+
+function flyoverRow(c, player) {
+  const scored = player.scores[c.key];
+  const icon = c.icon ? `<span class="cat-icon">${c.icon}</span>` : '';
+  if (scored != null) {
+    return `<div class="flyover-row fo-scored"><span class="flyover-cat">${icon}${c.name}</span><span class="flyover-val">${scored}</span></div>`;
+  } else if (game.hasRolled && !game.isRolling) {
+    const bonus = isBonusYahtzee(player, game.dice);
+    const pot = bonus ? 50 : calcScore(c.key, game.dice);
+    return `<div class="flyover-row fo-potential${pot === 0 ? ' fo-zero' : ''}" data-cat="${c.key}"><span class="flyover-cat">${icon}${c.name}</span><span class="flyover-val">${pot}</span></div>`;
+  }
+  return `<div class="flyover-row fo-empty"><span class="flyover-cat">${icon}${c.name}</span><span class="flyover-val">-</span></div>`;
+}
+
+function flyoverSum(label, val) {
+  return `<div class="flyover-summary"><span class="flyover-cat">${label}</span><span class="flyover-val">${val}</span></div>`;
 }
 
 // ===== Scorecard Rendering =====
 function renderScorecard() {
   const cp = game.currentPlayer;
-
-  document.querySelectorAll('[data-player]').forEach(el => {
-    const pi = parseInt(el.dataset.player);
-    el.style.display = pi === cp ? '' : 'none';
-  });
 
   document.querySelectorAll('.player-header').forEach(th => {
     th.classList.toggle('active', parseInt(th.dataset.player) === cp && !game.gameOver);
@@ -1583,7 +1716,7 @@ function renderAll() {
     renderDigitalDice();
   }
 
-  renderScoreboard();
+  renderFlyover();
   renderScorecard();
 }
 
