@@ -743,23 +743,27 @@
       bottom: 0;
       width: calc(100% - 380px);
       z-index: 50;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
       pointer-events: none;
-      padding: 6px 12px;
-      background: rgba(0,0,0,0.12);
+      overflow: hidden;
     }
 
     .flyover-panel {
       pointer-events: auto;
+      position: absolute;
+      top: 6px;
       width: 300px;
-      max-height: 100%;
+      max-height: calc(100% - 12px);
       background: var(--card-bg);
       border-radius: 14px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.4);
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      will-change: transform;
+    }
+
+    .flyover-panel.dragging {
+      transition: none !important;
     }
 
     .flyover-header {
@@ -773,6 +777,19 @@
       position: sticky;
       top: 0;
       z-index: 1;
+      cursor: grab;
+    }
+
+    .flyover-header:active {
+      cursor: grabbing;
+    }
+
+    .flyover-drag-hint {
+      font-size: 10px;
+      font-weight: 600;
+      color: rgba(0,0,0,0.35);
+      display: block;
+      margin-top: 1px;
     }
 
     .flyover-section {
@@ -1489,7 +1506,7 @@ function renderFlyover() {
 
   const player = game.players[game.currentPlayer];
   const panel = document.getElementById('flyover-panel');
-  let h = `<div class="flyover-header">${escHtml(player.name)}</div>`;
+  let h = `<div class="flyover-header">${escHtml(player.name)}<span class="flyover-drag-hint">&#x2B0C; verschiebbar</span></div>`;
 
   h += '<div class="flyover-section">1. Teil</div>';
   UPPER_CATS.forEach(c => { h += flyoverRow(c, player); });
@@ -1512,6 +1529,7 @@ function renderFlyover() {
   panel.querySelectorAll('.fo-potential').forEach(row => {
     row.addEventListener('click', () => selectCategory(row.dataset.cat));
   });
+  requestAnimationFrame(initFlyoverPosition);
 }
 
 function flyoverRow(c, player) {
@@ -1530,6 +1548,67 @@ function flyoverRow(c, player) {
 function flyoverSum(label, val) {
   return `<div class="flyover-summary"><span class="flyover-cat">${label}</span><span class="flyover-val">${val}</span></div>`;
 }
+
+// ===== Flyover Drag =====
+let flyoverX = null;
+
+function initFlyoverPosition() {
+  const overlay = document.getElementById('flyover-overlay');
+  const panel = document.getElementById('flyover-panel');
+  const maxX = overlay.offsetWidth - panel.offsetWidth - 12;
+  if (flyoverX === null) flyoverX = Math.max(0, Math.round(maxX / 2));
+  flyoverX = Math.max(0, Math.min(flyoverX, maxX));
+  panel.style.left = flyoverX + 'px';
+}
+
+(function setupFlyoverDrag() {
+  const panel = document.getElementById('flyover-panel');
+  const overlay = document.getElementById('flyover-overlay');
+  let startX = 0, startLeft = 0, isDragging = false;
+
+  function onStart(clientX) {
+    isDragging = true;
+    startX = clientX;
+    startLeft = flyoverX || 0;
+    panel.classList.add('dragging');
+  }
+
+  function onMove(clientX) {
+    if (!isDragging) return;
+    const dx = clientX - startX;
+    const maxX = overlay.offsetWidth - panel.offsetWidth - 12;
+    flyoverX = Math.max(0, Math.min(startLeft + dx, maxX));
+    panel.style.left = flyoverX + 'px';
+  }
+
+  function onEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    panel.classList.remove('dragging');
+  }
+
+  panel.addEventListener('touchstart', (e) => {
+    const header = panel.querySelector('.flyover-header');
+    if (header && header.contains(e.target)) {
+      e.preventDefault();
+      onStart(e.touches[0].clientX);
+    }
+  }, { passive: false });
+
+  panel.addEventListener('touchmove', (e) => {
+    if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); }
+  }, { passive: false });
+
+  panel.addEventListener('touchend', onEnd);
+  panel.addEventListener('touchcancel', onEnd);
+
+  panel.addEventListener('mousedown', (e) => {
+    const header = panel.querySelector('.flyover-header');
+    if (header && header.contains(e.target)) { e.preventDefault(); onStart(e.clientX); }
+  });
+  document.addEventListener('mousemove', (e) => { if (isDragging) onMove(e.clientX); });
+  document.addEventListener('mouseup', onEnd);
+})();
 
 // ===== Scorecard Rendering =====
 function renderScorecard() {
