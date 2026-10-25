@@ -948,6 +948,15 @@ const PIP_POS = {
   6: [{ top: '25%', left: '25%' }, { top: '25%', left: '75%' }, { top: '50%', left: '25%' }, { top: '50%', left: '75%' }, { top: '75%', left: '25%' }, { top: '75%', left: '75%' }],
 };
 
+// ===== Bonus Yahtzee Check =====
+function isYahtzee(dice) {
+  return dice[0] > 0 && dice.every(d => d === dice[0]);
+}
+
+function isBonusYahtzee(player, dice) {
+  return isYahtzee(dice) && player.scores['fuenfGleiche'] != null;
+}
+
 // ===== Scoring Functions =====
 function calcScore(cat, dice) {
   const counts = [0, 0, 0, 0, 0, 0];
@@ -1350,7 +1359,8 @@ function renderScorecard() {
       td.textContent = scored;
       td.classList.add('scored');
     } else if (pi === cp && game.hasRolled && !game.isRolling && !game.gameOver) {
-      const potential = calcScore(cat, game.dice);
+      const bonusYahtzee = isBonusYahtzee(player, game.dice);
+      const potential = bonusYahtzee ? 50 : calcScore(cat, game.dice);
       td.textContent = potential;
       td.classList.add('potential');
       if (potential === 0) td.classList.add('zero');
@@ -1384,7 +1394,8 @@ function selectCategory(cat) {
   const player = game.players[game.currentPlayer];
   if (player.scores[cat] != null) return;
 
-  const score = calcScore(cat, game.dice);
+  const bonusYahtzee = isBonusYahtzee(player, game.dice);
+  const score = bonusYahtzee ? 50 : calcScore(cat, game.dice);
 
   // Für Korrektur speichern
   game.history.push({
@@ -1400,7 +1411,7 @@ function selectCategory(cat) {
   const cell = document.querySelector(`.score-cell[data-cat="${cat}"][data-player="${game.currentPlayer}"]`);
   if (cell) { cell.classList.add('just-scored'); setTimeout(() => cell.classList.remove('just-scored'), 600); }
 
-  if (cat === 'fuenfGleiche' && score === 50) showKniffelToast();
+  if ((cat === 'fuenfGleiche' && score === 50) || bonusYahtzee) showKniffelToast();
 
   if (game.players.every(p => getCategoriesFilled(p) === TOTAL_ROUNDS)) {
     game.gameOver = true;
