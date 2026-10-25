@@ -231,8 +231,8 @@
 
     /* --- Left Panel (Dice) --- */
     .dice-panel {
-      width: 250px;
-      min-width: 250px;
+      width: 380px;
+      min-width: 380px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -251,13 +251,13 @@
 
     .round-display {
       color: rgba(255,255,255,0.6);
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 600;
     }
 
     .current-player-name {
       color: var(--accent);
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 800;
       margin-top: 1px;
       text-shadow: 1px 2px 4px rgba(0,0,0,0.3);
@@ -270,16 +270,16 @@
       border-radius: 10px;
       overflow: hidden;
       margin: 6px 0;
-      width: 220px;
+      width: 310px;
     }
 
     .mode-btn {
       flex: 1;
-      padding: 6px 4px;
+      padding: 8px 4px;
       border: none;
       background: transparent;
       color: rgba(255,255,255,0.5);
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
       transition: background 0.2s, color 0.2s;
@@ -295,8 +295,8 @@
     .dice-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin: 8px 0;
+      gap: 14px;
+      margin: 10px 0;
       justify-items: center;
     }
 
@@ -312,10 +312,10 @@
     }
 
     .die {
-      width: 70px;
-      height: 70px;
+      width: 95px;
+      height: 95px;
       background: linear-gradient(145deg, #ffffff 0%, #f0f0f0 100%);
-      border-radius: 14px;
+      border-radius: 18px;
       border: 3px solid #ccc;
       position: relative;
       box-shadow: 2px 4px 8px var(--dice-shadow);
@@ -348,8 +348,8 @@
     }
 
     .pip {
-      width: 13px;
-      height: 13px;
+      width: 17px;
+      height: 17px;
       background: #333;
       border-radius: 50%;
       position: absolute;
@@ -377,8 +377,8 @@
     .dice-picker {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      margin: 4px 0;
+      gap: 6px;
+      margin: 6px 0;
       width: 100%;
       padding: 0 2px;
     }
@@ -387,23 +387,23 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 3px;
+      gap: 5px;
     }
 
     .picker-row-label {
-      width: 16px;
+      width: 22px;
       color: rgba(255,255,255,0.35);
-      font-size: 11px;
+      font-size: 14px;
       font-weight: 700;
       text-align: center;
       flex-shrink: 0;
     }
 
     .mini-die {
-      width: 34px;
-      height: 34px;
+      width: 48px;
+      height: 48px;
       background: linear-gradient(145deg, #c8c8c8, #a8a8a8);
-      border-radius: 8px;
+      border-radius: 10px;
       border: 2px solid #777;
       position: relative;
       cursor: pointer;
@@ -433,8 +433,8 @@
     }
 
     .mini-pip {
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
       background: #555;
       border-radius: 50%;
       position: absolute;
@@ -455,7 +455,7 @@
     }
 
     .btn-roll {
-      width: 180px;
+      width: 260px;
       padding: 14px 0;
       border: none;
       border-radius: 14px;
@@ -486,7 +486,7 @@
     }
 
     .btn-confirm {
-      width: 180px;
+      width: 260px;
       padding: 12px 0;
       border: none;
       border-radius: 14px;
@@ -505,7 +505,7 @@
     }
 
     .btn-edit-dice {
-      width: 180px;
+      width: 260px;
       padding: 9px 0;
       border: none;
       border-radius: 10px;
@@ -523,7 +523,7 @@
     }
 
     .btn-undo {
-      width: 180px;
+      width: 260px;
       padding: 9px 0;
       border: 1px solid rgba(255,255,255,0.25);
       border-radius: 10px;
@@ -553,14 +553,14 @@
 
     .rolls-remaining {
       color: rgba(255,255,255,0.7);
-      font-size: 13px;
+      font-size: 15px;
       margin-top: 6px;
       font-weight: 600;
     }
 
     .turn-hint {
       color: rgba(255,255,255,0.5);
-      font-size: 11px;
+      font-size: 13px;
       margin-top: 8px;
       text-align: center;
       font-style: italic;
@@ -602,7 +602,7 @@
     .scorecard-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 13px;
+      font-size: 15px;
       table-layout: fixed;
     }
 
@@ -611,7 +611,7 @@
       border: 1px solid var(--border);
       padding: 2px 5px;
       text-align: center;
-      height: 27px;
+      height: 32px;
       vertical-align: middle;
     }
 
@@ -620,8 +620,8 @@
       padding-left: 8px;
       font-weight: 600;
       background: var(--card-bg);
-      width: 180px;
-      min-width: 180px;
+      width: 210px;
+      min-width: 210px;
     }
 
     .scorecard-table .cat-icon {
@@ -637,7 +637,7 @@
       background: var(--bg-light);
       color: var(--text-white);
       font-weight: 700;
-      font-size: 14px;
+      font-size: 16px;
       padding: 5px 4px;
     }
 
@@ -696,7 +696,7 @@
     .score-cell {
       background: var(--card-bg);
       font-weight: 600;
-      font-size: 14px;
+      font-size: 16px;
       color: var(--text);
     }
 
@@ -709,7 +709,7 @@
       font-weight: 400;
       font-style: italic;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 15px;
     }
 
     .score-cell.potential:active {
@@ -732,6 +732,46 @@
     @keyframes score-flash {
       0% { background: var(--accent); }
       100% { background: var(--card-bg); }
+    }
+
+    /* ===== Scoreboard (all players overview) ===== */
+    .scoreboard {
+      display: flex;
+      gap: 6px;
+      padding: 6px 4px;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+    }
+
+    .sb-player {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.85);
+      font-size: 13px;
+      font-weight: 600;
+      min-width: 0;
+    }
+
+    .sb-active {
+      background: var(--accent);
+      color: #333;
+      font-weight: 800;
+      box-shadow: 0 2px 8px rgba(249, 168, 37, 0.4);
+    }
+
+    .sb-name {
+      max-width: 90px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .sb-score {
+      font-weight: 800;
+      font-size: 15px;
     }
 
     /* ===== Game Over Screen ===== */
@@ -876,6 +916,7 @@
   </div>
   <!-- Right: Scorecard Panel -->
   <div class="scorecard-panel">
+    <div class="scoreboard" id="scoreboard"></div>
     <table class="scorecard-table" id="scorecard-table"></table>
   </div>
 </div>
@@ -1337,9 +1378,29 @@ function totRow(key, label, n) {
   return r + '</tr>';
 }
 
+// ===== Scoreboard (All Players Overview) =====
+function renderScoreboard() {
+  const sb = document.getElementById('scoreboard');
+  let html = '';
+  game.players.forEach((p, i) => {
+    const total = getFinalTotal(p);
+    const active = i === game.currentPlayer && !game.gameOver;
+    html += `<div class="sb-player${active ? ' sb-active' : ''}">
+      <span class="sb-name">${escHtml(p.name)}</span>
+      <span class="sb-score">${total}</span>
+    </div>`;
+  });
+  sb.innerHTML = html;
+}
+
 // ===== Scorecard Rendering =====
 function renderScorecard() {
   const cp = game.currentPlayer;
+
+  document.querySelectorAll('[data-player]').forEach(el => {
+    const pi = parseInt(el.dataset.player);
+    el.style.display = pi === cp ? '' : 'none';
+  });
 
   document.querySelectorAll('.player-header').forEach(th => {
     th.classList.toggle('active', parseInt(th.dataset.player) === cp && !game.gameOver);
@@ -1522,6 +1583,7 @@ function renderAll() {
     renderDigitalDice();
   }
 
+  renderScoreboard();
   renderScorecard();
 }
 
